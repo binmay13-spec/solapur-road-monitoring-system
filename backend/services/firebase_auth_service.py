@@ -20,12 +20,19 @@ def initialize_firebase():
 
     config = get_config()
     service_account_path = config.FIREBASE_SERVICE_ACCOUNT_PATH
+    service_account_json = config.FIREBASE_SERVICE_ACCOUNT_JSON
 
     try:
-        if os.path.exists(service_account_path):
+        if service_account_json:
+            import json
+            cred_dict = json.loads(service_account_json)
+            cred = credentials.Certificate(cred_dict)
+            firebase_admin.initialize_app(cred)
+            logger.info("Firebase Admin SDK initialized with raw JSON string.")
+        elif os.path.exists(service_account_path):
             cred = credentials.Certificate(service_account_path)
             firebase_admin.initialize_app(cred)
-            logger.info("Firebase Admin SDK initialized with service account.")
+            logger.info(f"Firebase Admin SDK initialized with service account file: {service_account_path}")
         else:
             # Try default credentials (for Cloud environments)
             firebase_admin.initialize_app()

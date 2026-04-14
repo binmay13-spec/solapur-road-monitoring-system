@@ -9,20 +9,24 @@ from datetime import datetime, date
 
 logger = get_logger(__name__)
 
+import threading
+
 _supabase_client: Client = None
+_client_lock = threading.Lock()
 
 
 def get_supabase() -> Client:
     """Get or create Supabase client (singleton)."""
     global _supabase_client
-    if _supabase_client is None:
-        config = get_config()
-        _supabase_client = create_client(
-            config.SUPABASE_URL,
-            config.SUPABASE_SERVICE_ROLE_KEY  # Service role for backend operations
-        )
-        logger.info("Supabase client initialized.")
-    return _supabase_client
+    with _client_lock:
+        if _supabase_client is None:
+            config = get_config()
+            _supabase_client = create_client(
+                config.SUPABASE_URL,
+                config.SUPABASE_SERVICE_ROLE_KEY  # Service role for backend operations
+            )
+            logger.info("Supabase client initialized.")
+        return _supabase_client
 
 
 # ============================================================

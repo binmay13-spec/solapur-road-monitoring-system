@@ -35,8 +35,8 @@ class AppConfig {
   static const Duration apiTimeout = Duration(seconds: 15);
   static const int maxRetries = 3;
 
-  // Image constraints
-  static const double maxImageWidth = 1024;
-  static const double maxImageHeight = 1024;
-  static const int imageQuality = 80;
+  // Image constraints (optimized for Render free tier)
+  static const double maxImageWidth = 512;
+  static const double maxImageHeight = 512;
+  static const int imageQuality = 60;
 }

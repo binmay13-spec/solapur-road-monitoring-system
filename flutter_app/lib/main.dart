@@ -26,7 +26,9 @@ class SmartRoadMonitorApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         Provider<AuthService>(create: (_) => AuthService()),
-        Provider<ApiService>(create: (_) => ApiService()),
+        ProxyProvider<AuthService, ApiService>(
+          update: (_, auth, __) => ApiService(auth),
+        ),
         ChangeNotifierProvider<AppState>(create: (_) => AppState()),
       ],
       child: MaterialApp(
@@ -154,7 +156,7 @@ class SplashScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              child: const Icon(Icons.road, size: 40, color: Colors.white),
+              child: const Icon(Icons.traffic, size: 40, color: Colors.white),
             ),
             const SizedBox(height: 24),
             const Text(

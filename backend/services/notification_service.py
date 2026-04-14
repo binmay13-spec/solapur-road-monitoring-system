@@ -9,61 +9,44 @@ from utils.retry import retry_on_failure
 
 logger = get_logger(__name__)
 
-FCM_SEND_URL = "https://fcm.googleapis.com/fcm/send"
-
+from firebase_admin import messaging
+from .firebase_auth_service import initialize_firebase
 
 @retry_on_failure(max_retries=3)
 def send_push_notification(fcm_token: str, title: str, body: str, data: dict = None) -> bool:
     """
-    Send a push notification via Firebase Cloud Messaging.
-
-    Args:
-        fcm_token: Device FCM token
-        title: Notification title
-        body: Notification body text
-        data: Optional data payload
-
-    Returns:
-        bool: True if sent successfully
+    Send a push notification via Firebase Cloud Messaging (FCM v1).
     """
-    config = get_config()
-    server_key = config.FCM_SERVER_KEY
+    initialize_firebase()
 
-    if not server_key:
-        logger.warning("FCM server key not configured. Skipping push notification.")
-        return False
-
-    headers = {
-        "Authorization": f"key={server_key}",
-        "Content-Type": "application/json",
-    }
-
-    payload = {
-        "to": fcm_token,
-        "notification": {
-            "title": title,
-            "body": body,
-            "sound": "default",
-            "click_action": "FLUTTER_NOTIFICATION_CLICK",
-        },
-        "data": data or {},
-        "priority": "high",
-    }
+    message = messaging.Message(
+        notification=messaging.Notification(
+            title=title,
+            body=body,
+        ),
+        data=data or {},
+        token=fcm_token,
+        android=messaging.AndroidConfig(
+            priority="high",
+            notification=messaging.AndroidNotification(
+                click_action="FLUTTER_NOTIFICATION_CLICK",
+                sound="default",
+            ),
+        ),
+        apns=messaging.APNSConfig(
+            payload=messaging.APNSPayload(
+                aps=messaging.Aps(sound="default"),
+            ),
+        ),
+    )
 
     try:
-        response = requests.post(FCM_SEND_URL, headers=headers, json=payload, timeout=10)
-        response.raise_for_status()
-
-        result = response.json()
-        if result.get("success", 0) > 0:
-            logger.info(f"Push notification sent: {title}")
-            return True
-        else:
-            logger.warning(f"Push notification failed: {result}")
-            return False
+        response = messaging.send(message)
+        logger.info(f"Push notification sent successfully: {response}")
+        return True
     except Exception as e:
-        logger.error(f"Error sending push notification: {e}")
-        raise
+        logger.error(f"Error sending push notification via FCM v1: {e}")
+        return False
 
 
 def notify_worker_assigned(user_fcm_token: str, report_id: str, worker_name: str):

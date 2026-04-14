@@ -114,24 +114,34 @@ class AuthService {
   // ERROR HANDLING
   // ============================================================
 
-  String _handleAuthException(FirebaseAuthException e) {
+  Exception _handleAuthException(FirebaseAuthException e) {
+    String message;
     switch (e.code) {
       case 'user-not-found':
-        return 'No account found with this email.';
+        message = 'No account found with this email.';
+        break;
       case 'wrong-password':
-        return 'Incorrect password.';
+        message = 'Incorrect password.';
+        break;
       case 'email-already-in-use':
-        return 'An account already exists with this email.';
+        message = 'An account already exists with this email.';
+        break;
       case 'invalid-email':
-        return 'Invalid email address.';
+        message = 'Invalid email address.';
+        break;
       case 'weak-password':
-        return 'Password is too weak. Use at least 6 characters.';
+        message = 'Password is too weak. Use at least 6 characters.';
+        break;
       case 'user-disabled':
-        return 'This account has been disabled.';
+        message = 'This account has been disabled.';
+        break;
       case 'too-many-requests':
-        return 'Too many attempts. Please try again later.';
+        message = 'Too many attempts. Please try again later.';
+        break;
       default:
-        return e.message ?? 'Authentication failed.';
+        message = e.message ?? 'Authentication failed.';
+        break;
     }
+    return Exception(message);
   }
 }

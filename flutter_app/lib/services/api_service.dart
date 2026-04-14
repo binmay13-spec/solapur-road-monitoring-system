@@ -8,7 +8,9 @@ import '../app_config.dart';
 import 'auth_service.dart';
 
 class ApiService {
-  final AuthService _authService = AuthService();
+  final AuthService _authService;
+
+  ApiService(this._authService);
 
   // ============================================================
   // HTTP HELPERS

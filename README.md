@@ -108,47 +108,60 @@ smart_road_monitor/
 │   └── static/admin/         # Admin dashboard
 ├── database/
 │   └── schema.sql            # Supabase migration
-└── flutter_app/
-    └── lib/
-        ├── main.dart          # App entry
-        ├── models/            # Data models
-        ├── services/          # API & auth
-        ├── screens/
-        │   ├── auth/          # Login, register
-        │   ├── citizen/       # Citizen screens
-        │   └── worker/        # Worker screens
-        └── theme/             # Color palette
+### 5. Google Sign-In (Android)
+To enable Google Sign-In on Android, you must register your SHA-1 fingerprint in the Firebase Console:
+1. Generate the SHA-1 fingerprint:
+   ```bash
+   cd flutter_app/android
+   ./gradlew signingReport
+   ```
+2. Copy the `SHA1` from the `debug` or `release` variant.
+3. Paste it in Firebase Console → Project Settings → Android App → SHA certificate fingerprints.
+4. Download the updated `google-services.json` and place it in `flutter_app/android/app/`.
+
+## ☁️ Deployment (Render)
+
+When deploying the backend to Render:
+
+1. **Environment Variables**:
+   - `FLASK_ENV`: set to `production` (Crucial for security!).
+   - `SECRET_KEY`: Set to a long, random string.
+   - `FIREBASE_SERVICE_ACCOUNT_JSON`: Paste the entire content of your Firebase service account JSON here.
+   - `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`: Your Supabase credentials.
+   - `ROBOFLOW_API_KEY`: Your Roboflow key.
+
+2. **FCM v1 API**: 
+   The app uses the modern FCM v1 API. Ensure your Firebase Service Account has the "Firebase Messaging Admin" role.
+
+## 📁 Project Structure
+
 ```
-
-## 🎨 Color Palette
-
-| Color       | Hex       | Usage           |
-|-------------|-----------|-----------------|
-| Primary     | `#77B6EA` | Main actions    |
-| Background  | `#E8EEF2` | Page background |
-| Cards       | `#C7D3DD` | Card borders    |
-| Secondary   | `#D6C9C9` | Accents         |
-| Text        | `#37393A` | Body text       |
-
-## 🔗 API Endpoints
-
-| Method | Endpoint | Auth | Description |
-|--------|----------|------|-------------|
-| POST | `/auth/login` | No | Firebase login |
-| GET | `/auth/profile` | Yes | Get profile |
-| POST | `/report` | Yes | Submit report |
-| GET | `/reports` | Yes | List reports |
-| POST | `/assign` | Admin | Assign worker |
-| POST | `/attendance` | Worker | Log attendance |
-| GET | `/worker/tasks` | Worker | Get tasks |
-| GET | `/admin/dashboard` | Admin | Analytics |
+smart_road_monitor/
+├── backend/                    # Flask API (Python)
+│   ├── app.py                 # Entry point
+│   ├── config.py              # Configuration & Environment loading
+│   ├── services/              # Business logic (Supabase, FCM v1, AI)
+│   ├── routes/                # API endpoints (Auth, Reports, Worker)
+│   ├── middleware/            # Firebase Token Auth middleware
+│   ├── utils/                 # Logger, retry logic
+│   └── static/admin/         # Admin dashboard (Served locally)
+├── database/
+│   └── schema.sql            # Supabase tables, RLS & Triggers
+└── flutter_app/                # Mobile App (Dart/Flutter)
+    └── lib/
+        ├── main.dart          # App entry & Provider setup
+        ├── models/            # JSON Data models
+        ├── services/          # API, Auth, & Storage
+        ├── screens/           # UI Components
+        └── theme/             # Color palette & styling
+```
 
 ## 📋 Requirements
 
-- Python 3.9+
-- Flutter 3.2+
-- Firebase project with Auth enabled
-- Supabase project
+- Python 3.12+
+- Flutter 3.24+
+- Firebase project with Auth & Cloud Messaging enabled
+- Supabase project with Storage buckets created
 - Roboflow account (optional, for AI)
 
 ## 📄 License

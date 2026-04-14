@@ -159,7 +159,7 @@ class _DashboardTabState extends State<_DashboardTab> {
                         ),
                         borderRadius: BorderRadius.circular(14),
                       ),
-                      child: const Icon(Icons.road, color: Colors.white),
+                      child: const Icon(Icons.traffic, color: Colors.white),
                     ),
                   ],
                 ),

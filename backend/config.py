@@ -11,7 +11,11 @@ class Config:
     """Base configuration."""
 
     # Flask
-    SECRET_KEY = os.getenv("SECRET_KEY", "dev-secret-key-change-in-production")
+    SECRET_KEY = os.getenv("SECRET_KEY")
+    if os.getenv("FLASK_ENV") == "production" and not SECRET_KEY:
+        raise RuntimeError("SECRET_KEY must be set in production environment!")
+    
+    SECRET_KEY = SECRET_KEY or "dev-secret-key-fallback"
     FLASK_ENV = os.getenv("FLASK_ENV", "development")
     DEBUG = os.getenv("FLASK_DEBUG", "true").lower() == "true"
     PORT = int(os.getenv("FLASK_PORT", 5000))
@@ -22,9 +26,9 @@ class Config:
     SUPABASE_SERVICE_ROLE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY", "")
 
     # Firebase
-    FIREBASE_SERVICE_ACCOUNT_PATH = os.getenv(
-        "FIREBASE_SERVICE_ACCOUNT_PATH", "./firebase_service.json"
-    )
+    # Support both file path and raw JSON string (for Render secrets/env vars)
+    FIREBASE_SERVICE_ACCOUNT_PATH = os.getenv("FIREBASE_SERVICE_ACCOUNT_PATH", "./firebase_service.json")
+    FIREBASE_SERVICE_ACCOUNT_JSON = os.getenv("FIREBASE_SERVICE_ACCOUNT_JSON")
     FIREBASE_PROJECT_ID = os.getenv("FIREBASE_PROJECT_ID", "")
 
     # Roboflow AI
@@ -42,7 +46,7 @@ class Config:
 
 
 class DevelopmentConfig(Config):
-    DEBUG = True
+    pass
 
 
 class ProductionConfig(Config):

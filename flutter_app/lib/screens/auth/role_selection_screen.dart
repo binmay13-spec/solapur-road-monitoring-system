@@ -40,7 +40,7 @@ class RoleSelectionScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                child: const Icon(Icons.road, size: 44, color: Colors.white),
+                child: const Icon(Icons.traffic, size: 44, color: Colors.white),
               ),
 
               const SizedBox(height: 28),
