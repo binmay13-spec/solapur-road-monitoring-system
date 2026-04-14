@@ -31,10 +31,13 @@ dependencies:
   # Image
   image_picker: ^1.1.2
 
-  # Storage
+  # Storage & Database
   shared_preferences: ^2.3.4
+  supabase_flutter: ^2.8.1
+  path: ^1.9.0
 
   # UI Utilities
+  google_fonts: ^6.2.1
   flutter_animate: ^4.5.0
   shimmer: ^3.0.0
   cached_network_image: ^3.4.1
@@ -57,13 +60,4 @@ dev_dependencies:
 flutter:
   uses-material-design: true
 
-  fonts:
-    - family: Inter
-      fonts:
-        - asset: assets/fonts/Inter-Regular.ttf
-        - asset: assets/fonts/Inter-Medium.ttf
-          weight: 500
-        - asset: assets/fonts/Inter-SemiBold.ttf
-          weight: 600
-        - asset: assets/fonts/Inter-Bold.ttf
-          weight: 700
+# Fonts block removed. Using GoogleFonts instead.
