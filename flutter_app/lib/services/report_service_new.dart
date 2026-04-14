@@ -7,8 +7,8 @@ import 'package:http/http.dart' as http;
 import 'firebase_auth_service_new.dart';
 
 class ReportServiceNew {
-  // Base URL for current local testing
-  final String _baseUrl = "http://localhost:5000";
+  // Base URL for API requests
+  final String _baseUrl = "https://solapur-road-monitoring-system.onrender.com";
 
   Future<Map<String, String>> _getHeaders() async {
     final token = await firebaseAuthService.getIdToken();

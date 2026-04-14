@@ -3,9 +3,7 @@
 
 class AppConfig {
   // Backend API URL — change this to your deployed server
-  static const String baseUrl = 'http://10.0.2.2:5000'; // Android emulator localhost
-  // static const String baseUrl = 'http://localhost:5000'; // iOS simulator
-  // static const String baseUrl = 'https://your-api.com'; // Production
+  static const String baseUrl = 'https://solapur-road-monitoring-system.onrender.com';
 
   // App Info
   static const String appName = 'Smart Road Monitor';
