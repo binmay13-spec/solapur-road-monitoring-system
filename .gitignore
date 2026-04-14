@@ -1,0 +1,33 @@
+# NEW FILE | Security Config
+# IDE & System
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+env/
+venv/
+.env
+backend/.env
+
+# Flutter
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+build/
+flutter_app/build/
+flutter_app/.dart_tool/
+
+# Secrets (CRITICAL)
+backend/firebase_service.json
+backend/config/env_new.py
+flutter_app/android/app/google-services.json
+ios/Runner/GoogleService-Info.plist
+
+# Assets
+flutter_app/assets/fonts/
