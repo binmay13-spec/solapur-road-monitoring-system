@@ -104,15 +104,15 @@ const AdminAPI = (() => {
 
     // Dashboard
     async function getDashboard() {
-        return get('/admin/dashboard');
+        return get('/admin_api/dashboard');
     }
 
     async function getAnalytics() {
-        return get('/admin/analytics');
+        return get('/admin_api/analytics');
     }
 
     async function getOverview() {
-        return get('/admin/overview');
+        return get('/admin_api/overview');
     }
 
     // Reports
@@ -123,7 +123,7 @@ const AdminAPI = (() => {
         if (filters.limit) params.append('limit', filters.limit);
         if (filters.offset) params.append('offset', filters.offset);
         const query = params.toString();
-        return get(`/admin/reports${query ? '?' + query : ''}`);
+        return get(`/admin_api/reports${query ? '?' + query : ''}`);
     }
 
     async function getReport(reportId) {
@@ -136,15 +136,15 @@ const AdminAPI = (() => {
 
     // Workers
     async function getWorkers() {
-        return get('/admin/workers');
+        return get('/admin_api/workers');
     }
 
     async function createWorker(workerData) {
-        return post('/admin/workers', workerData);
+        return post('/admin_api/workers', workerData);
     }
 
     async function getWorkerAttendance(workerId) {
-        return get(`/admin/workers/${workerId}/attendance`);
+        return get(`/admin_api/workers/${workerId}/attendance`);
     }
 
     // Support

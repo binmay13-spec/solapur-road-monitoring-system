@@ -11,7 +11,7 @@ from utils.logger import get_logger
 
 logger = get_logger(__name__)
 
-admin_bp = Blueprint("admin", __name__, url_prefix="/admin")
+admin_bp = Blueprint("admin", __name__, url_prefix="/admin_api")
 
 
 @admin_bp.route("/reports", methods=["GET"])
