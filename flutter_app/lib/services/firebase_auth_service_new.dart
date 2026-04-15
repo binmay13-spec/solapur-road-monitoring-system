@@ -7,7 +7,9 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 class FirebaseAuthServiceNew {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
+  final GoogleSignIn _googleSignIn = GoogleSignIn(
+    clientId: '710575648720-9r1dfclda3mb3k032v4hrudf7plsapj9.apps.googleusercontent.com',
+  );
 
   // Stream of auth state changes
   Stream<User?> get user => _auth.authStateChanges();
