@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: solapur-road-monitoring-system
+    runtime: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:create_app() --bind 0.0.0.0:$PORT --workers 2 --timeout 120
+    envVars:
+      - key: FLASK_ENV
+        value: production
+      - key: SECRET_KEY
+        generateValue: true
+      - key: FIREBASE_PROJECT_ID
+        value: smart-city-monitoring-175fb
+      - key: FIREBASE_SERVICE_ACCOUNT_JSON
+        sync: false   # Set manually in Render dashboard
+      - key: SUPABASE_URL
+        sync: false   # Set manually in Render dashboard
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false   # Set manually in Render dashboard
+      - key: SUPABASE_ANON_KEY
+        sync: false   # Set manually in Render dashboard
+      - key: ROBOFLOW_API_KEY
+        sync: false   # Optional

@@ -162,6 +162,7 @@ class _TaskDetailScreenState extends State<TaskDetailScreen> {
                       child: ElevatedButton.icon(
                         onPressed: () async {
                           final result = await Navigator.push(context, MaterialPageRoute(builder: (_) => TaskCompletionScreen(task: _task)));
+                          // ignore: use_build_context_synchronously
                           if (result == true && mounted) Navigator.pop(context, true);
                         },
                         icon: const Icon(Icons.check_circle_rounded),

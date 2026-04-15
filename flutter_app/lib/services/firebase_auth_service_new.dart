@@ -2,6 +2,7 @@
 // Firebase Authentication Service integration
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class FirebaseAuthServiceNew {
@@ -28,7 +29,7 @@ class FirebaseAuthServiceNew {
 
       return await _auth.signInWithCredential(credential);
     } catch (e) {
-      print("Google Sign-In Error: $e");
+      debugPrint("Google Sign-In Error: $e");
       rethrow;
     }
   }
@@ -38,7 +39,7 @@ class FirebaseAuthServiceNew {
     try {
       return await _auth.signInWithEmailAndPassword(email: email, password: password);
     } catch (e) {
-      print("Email Sign-In Error: $e");
+      debugPrint("Email Sign-In Error: $e");
       rethrow;
     }
   }
@@ -48,7 +49,7 @@ class FirebaseAuthServiceNew {
     try {
       return await _auth.createUserWithEmailAndPassword(email: email, password: password);
     } catch (e) {
-      print("Email Registration Error: $e");
+      debugPrint("Email Registration Error: $e");
       rethrow;
     }
   }

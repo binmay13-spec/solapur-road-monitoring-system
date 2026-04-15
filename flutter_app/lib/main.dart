@@ -89,18 +89,21 @@ class _RoleBasedRouterState extends State<RoleBasedRouter> {
   }
 
   Future<void> _loadRole() async {
-    try {
-      final apiService = Provider.of<ApiService>(context, listen: false);
-      final appState = Provider.of<AppState>(context, listen: false);
+    // Cache context-dependent objects before any async gaps
+    final apiService = Provider.of<ApiService>(context, listen: false);
+    final appState = Provider.of<AppState>(context, listen: false);
 
+    try {
       final response = await apiService.getProfile();
       if (response['success'] == true && response['user'] != null) {
         final user = UserModel.fromJson(response['user']);
         appState.setUser(user);
-        setState(() {
-          _role = user.role;
-          _loading = false;
-        });
+        if (mounted) {
+          setState(() {
+            _role = user.role;
+            _loading = false;
+          });
+        }
         return;
       }
     } catch (e) {
@@ -108,11 +111,12 @@ class _RoleBasedRouterState extends State<RoleBasedRouter> {
       debugPrint('Profile fetch failed: $e');
     }
 
-    final appState = Provider.of<AppState>(context, listen: false);
-    setState(() {
-      _role = appState.selectedRole ?? 'citizen';
-      _loading = false;
-    });
+    if (mounted) {
+      setState(() {
+        _role = appState.selectedRole ?? 'citizen';
+        _loading = false;
+      });
+    }
   }
 
   @override

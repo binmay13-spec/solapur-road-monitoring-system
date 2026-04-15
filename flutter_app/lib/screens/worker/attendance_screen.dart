@@ -77,6 +77,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
       final photoBase64 = base64Encode(bytes);
 
       // Step 4: Submit to backend
+      // ignore: use_build_context_synchronously
       final api = Provider.of<ApiService>(context, listen: false);
       final response = await api.logAttendance(
         type: type,
@@ -87,6 +88,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
 
       if (response['success'] == true && mounted) {
         setState(() => _isLoggedIn = type == 'login');
+        // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(type == 'login' ? '✅ Login recorded!' : '✅ Logout recorded!'),

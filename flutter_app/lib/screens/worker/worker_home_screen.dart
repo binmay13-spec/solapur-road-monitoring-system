@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../theme/app_theme.dart';
 import '../../services/api_service.dart';
-import '../../services/auth_service.dart';
 import '../../models/models.dart';
 import '../../main.dart';
 import 'worker_tasks_screen.dart';
